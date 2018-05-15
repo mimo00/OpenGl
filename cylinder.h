@@ -61,11 +61,10 @@ public:
 		}
 		Texture t;
 		t.id = 1;
-		t.type = "texture_diffuse";
-		t.path = "weiti.png";
+		t.name = "weiti.png";
 		vector<Texture> tv;
 		tv.push_back(t);
-		Mesh mesh(vertices, indices, tv);
+		Mesh mesh(vertices, indices, t);
 		return mesh;
 	}
 

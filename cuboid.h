@@ -34,11 +34,10 @@ public:
 		geterate_wall(start_point_negative, y_step_vec_neg, x_step_vec_neg);
 		Texture t;
 		t.id = 1;
-		t.type = "texture_diffuse";
-		t.path = "iipw.png";
+		t.name = "iipw.png";
 		vector<Texture> tv;
 		tv.push_back(t);
-		Mesh mesh(vertices, indices, tv);
+		Mesh mesh(vertices, indices, t);
 		/*Mesh mesh(vertices, indices);*/
 		return mesh;
 	}
