@@ -42,25 +42,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 
-GLuint LoadMipmapTexture(GLuint texId, const char* fname)
-{
-	/*Zwracane ID tekstury*/
-	int width, height;
-	unsigned char* image = SOIL_load_image(fname, &width, &height, 0, SOIL_LOAD_RGB);
-	if (image == nullptr)
-		throw exception("Failed to load texture file");
-
-	GLuint texture;
-	glGenTextures(1, &texture);
-
-	glActiveTexture(texId);
-	glBindTexture(GL_TEXTURE_2D, texture); /*Bindowanie tekstur, kazda kolejna komenda bêdzie siê odnosiæ do tekstury*/
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image); /* Przypisuje do aktualnej tekstury obraz */
-	glGenerateMipmap(GL_TEXTURE_2D);
-	SOIL_free_image_data(image);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	return texture;
-}
 
 
 int main()
@@ -138,13 +119,9 @@ int main()
 		Shader theProgram("gl_03.vert", "gl_03.frag");
 
 
-
-		Texture t;
-		t.name = "weiti.png";
-
 		// prepare textures
-		GLuint texture0 = LoadMipmapTexture(GL_TEXTURE0, "iipw.png");
-		GLuint texture1 = LoadMipmapTexture(GL_TEXTURE1, "weiti.png");
+		Texture texture0(GL_TEXTURE0, "iipw.png");
+		Texture texture1(GL_TEXTURE1, "weiti.png");
 
 		// Set the texture wrapping parameters
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// Set texture wrapping to GL_REPEAT (usually basic wrapping method)
@@ -153,8 +130,8 @@ int main()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		Mesh mesh_t(vertices, indices, t);
-		Mesh mesh_t_2(vertices2, indices2, t);
+		Mesh mesh_t(vertices, indices, &texture0);
+		Mesh mesh_t_2(vertices2, indices2, &texture1);
 
 		// main loop
 		while (!glfwWindowShouldClose(window))
@@ -173,12 +150,12 @@ int main()
 
 			// Bind Textures using texture units
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texture0);
+			glBindTexture(GL_TEXTURE_2D, texture0.id);
 			glUniform1i(glGetUniformLocation(theProgram.ID, "ourTexture"), 0);
 			mesh_t.Draw(theProgram);
 
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texture1);
+			glBindTexture(GL_TEXTURE_2D, texture1.id);
 			glUniform1i(glGetUniformLocation(theProgram.ID, "ourTexture"), 0);
 			mesh_t_2.Draw(theProgram);
 			// input

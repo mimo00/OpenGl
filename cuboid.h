@@ -32,8 +32,8 @@ public:
 		geterate_wall(start_point_negative, x_step_vec_neg, z_step_vec_neg);
 		geterate_wall(start_point_negative, y_step_vec_neg, z_step_vec_neg);
 		geterate_wall(start_point_negative, y_step_vec_neg, x_step_vec_neg);
-		Texture t;
-		Mesh mesh(vertices, indices, t);
+		Texture t(GL_TEXTURE0, "iipw.png");
+		Mesh mesh(vertices, indices, &t);
 		return mesh;
 	}
 

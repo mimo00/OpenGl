@@ -31,10 +31,36 @@ struct Vertex {
 	glm::vec3 Bitangent;
 };
 
-struct Texture {
+class Texture {
+public:
+	GLenum unit;
 	GLuint id;
 	const char* name;
-	GLuint texture;
+	Texture(GLenum unit, const char* fname){
+		this->unit = unit;
+		this->name = fname;
+		LoadMipmapTexture(unit, fname);
+	}
+	
+
+private:
+	void LoadMipmapTexture(GLenum unit, const char* fname)
+	{
+		/*Zwracane ID tekstury*/
+		int width, height;
+		unsigned char* image = SOIL_load_image(fname, &width, &height, 0, SOIL_LOAD_RGB);
+		if (image == nullptr)
+			throw exception("Failed to load texture file");
+
+		glGenTextures(1, &this->id);
+
+		glActiveTexture(unit);
+		glBindTexture(GL_TEXTURE_2D, this->id); /*Bindowanie tekstur, kazda kolejna komenda bêdzie siê odnosiæ do tekstury*/
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image); /* Przypisuje do aktualnej tekstury obraz */
+		glGenerateMipmap(GL_TEXTURE_2D);
+		SOIL_free_image_data(image);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 };
 
 class Mesh {
@@ -42,38 +68,24 @@ public:
 	/*  Mesh Data  */
 	vector<Vertex> vertices;
 	vector<unsigned int> indices;
-	Texture texture;
+	Texture* texture;
 	unsigned int VAO;
 
 	/*  Functions  */
 	// constructor Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)
-	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, Texture texture)
+	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, Texture* texture)
 	{
 		this->vertices = vertices;
 		this->indices = indices;
 		this->texture = texture;
 
 		// now that we have all the required data, set the vertex buffers and its attribute pointers.
-
-		// prepare textures
-		int width, height;
-		unsigned char* image = SOIL_load_image(texture.name, &width, &height, 0, SOIL_LOAD_RGB);
-		if (image == nullptr)
-			throw exception("Failed to load texture file");
-		glGenTextures(1, &texture.texture);
-		glBindTexture(GL_TEXTURE_2D, texture.texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-		glGenerateMipmap(GL_TEXTURE_2D);
 		setupMesh();
 	}
 
 	// render the mesh
 	void Draw(Shader shader)
 	{
-		glActiveTexture(GL_TEXTURE0);
-		
-		glUniform1i(glGetUniformLocation(shader.ID, "Texture0"), 0);
-		glBindTexture(GL_TEXTURE_2D, texture.texture);
 		// draw mesh
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

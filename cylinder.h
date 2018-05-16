@@ -59,8 +59,8 @@ public:
 			addTriangleIndex(i1, i3, i2);
 			addTriangleIndex(i4, i2, i3);
 		}
-		Texture t;
-		Mesh mesh(vertices, indices, t);
+		Texture t(GL_TEXTURE0, "iipw.png");
+		Mesh mesh(vertices, indices, &t);
 		return mesh;
 	}
 
