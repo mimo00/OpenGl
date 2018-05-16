@@ -121,7 +121,7 @@ int main()
 
 		// prepare textures
 		Texture texture0(GL_TEXTURE0, "iipw.png");
-		Texture texture1(GL_TEXTURE1, "weiti.png");
+		Texture texture1(GL_TEXTURE0, "weiti.png");
 
 		// Set the texture wrapping parameters
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// Set texture wrapping to GL_REPEAT (usually basic wrapping method)
@@ -149,14 +149,7 @@ int main()
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			// Bind Textures using texture units
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texture0.id);
-			glUniform1i(glGetUniformLocation(theProgram.ID, "ourTexture"), 0);
 			mesh_t.Draw(theProgram);
-
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texture1.id);
-			glUniform1i(glGetUniformLocation(theProgram.ID, "ourTexture"), 0);
 			mesh_t_2.Draw(theProgram);
 			// input
 			// -----
