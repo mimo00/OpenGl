@@ -31,17 +31,17 @@ public:
 		vertices.resize(how_many_vertex);
 		for (int i = 0; i < numSteps; ++i)
 		{
-			float x = cos(actual_radius)*radius;
-			float y = sin(actual_radius)*radius;
+			float z = cos(actual_radius)*radius;
+			float x = sin(actual_radius)*radius;
 
 			Vertex vertex;
 
-			vertex.Position = glm::vec3(y, hl, x);
+			vertex.Position = glm::vec3(x, hl, z);
 			vertex.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
 			vertex.TexCoords = glm::vec2(actualTextureWidth, 1.0f);
 
 			Vertex vertex2;
-			vertex2.Position = glm::vec3(y, -hl, x);
+			vertex2.Position = glm::vec3(x, -hl, z);
 			vertex2.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
 			vertex2.TexCoords = glm::vec2(actualTextureWidth, 0.0f);
 
