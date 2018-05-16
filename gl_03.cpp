@@ -146,11 +146,6 @@ int main()
 		GLuint texture0 = LoadMipmapTexture(GL_TEXTURE0, "iipw.png");
 		GLuint texture1 = LoadMipmapTexture(GL_TEXTURE1, "weiti.png");
 
-		/*Texture t2;
-		t2.id = 1;
-		t2.type = "texture_diffuse";
-		t2.name = "reed.png";*/
-
 		// Set the texture wrapping parameters
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// Set texture wrapping to GL_REPEAT (usually basic wrapping method)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -158,38 +153,13 @@ int main()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		/*// prepare textures
-		int width, height;
-		unsigned char* image = SOIL_load_image("weiti.png", &width, &height, 0, SOIL_LOAD_RGB);
-		if (image == nullptr)
-			throw exception("Failed to load texture file");
-		GLuint texture0;
-		glGenTextures(1, &texture0);
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture0);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-		glGenerateMipmap(GL_TEXTURE_2D);
-		// freeing unnecessary texture stuff
-		SOIL_free_image_data(image);
-		glBindTexture(GL_TEXTURE_2D, 0);*/
-
-
-
 		Mesh mesh_t(vertices, indices, t);
 		Mesh mesh_t_2(vertices2, indices2, t);
-		/*Mesh mesh_t2(vertices2, indices2, t2);*/
-		Cylinder c = Cylinder(0.4, 4, 50);
-		/*Mesh mesh = c.getCylinderMesh();*/
-		/*Cuboid cuboid = Cuboid(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(8.0f, 4.0f, 4.0f), 10);
-		Mesh mesh_cuboid = cuboid.getMesh();*/
-		/*glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture0);*/
+
 		// main loop
 		while (!glfwWindowShouldClose(window))
 		{
 			// per-frame time logic
-			// --------------------
 			float currentFrame = glfwGetTime();
 			deltaTime = currentFrame - lastFrame;
 			lastFrame = currentFrame;
@@ -201,10 +171,6 @@ int main()
 			glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
-
-			// Bind Textures using texture units
-
-			/*glUniform1i(glGetUniformLocation(theProgram.ID, "Texture0"), 0);*/
 			// Bind Textures using texture units
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texture0);
@@ -227,22 +193,8 @@ int main()
 			// camera/view transformation
 			glm::mat4 view = camera.GetViewMatrix();
 			theProgram.setMat4("view", view);
-			
-			/*mesh_t2.Draw(theProgram);*/
-			/*mesh.Draw(theProgram);*/
-			/*mesh_cuboid.Draw(theProgram);*/
-			/*
-			glm::mat4 model1;
-			for (int i = 0; i < mesh_cuboid.vertices.size(); i++){
-				model1 = glm::translate(model1, mesh_cuboid.vertices[i].Position);
-				float angle = 20.0f;
-				model1 = glm::rotate(model1, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-				theProgram.setMat4("model", model1);
-			}
-			}*/
 
 			glm::mat4 model;
-			/*model = glm::translate(model, vertices[i].Position);*/
 			float angle = 20.0f;
 			model = glm::rotate(model, glm::radians(angle), cameraVector);
 			theProgram.setMat4("model", model);
@@ -316,38 +268,3 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	camera.ProcessMouseScroll(yoffset);
 }
-
-
-
-/*
-Vertex vertex1;
-vertex1.Position = glm::vec3(-0.5f, -0.5f, 0.6f);
-vertex1.Normal = glm::vec3(0.0f, 0.0f, 1.0f);
-vertex1.TexCoords = glm::vec2(1.0f, 0.0f);
-
-Vertex vertex2;
-vertex2.Position = glm::vec3(0.5f, -0.5f, 0.0f);
-vertex2.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
-vertex2.TexCoords = glm::vec2(1.0f, 0.0f);
-
-Vertex vertex3;
-vertex3.Position = glm::vec3(0.0f, 0.4f, 0.0f);
-vertex3.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
-vertex3.TexCoords = glm::vec2(1.0f, 0.0f);
-
-Vertex vertex4;
-vertex4.Position = glm::vec3(1.0f, 1.0f, 0.0f);
-vertex4.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
-vertex4.TexCoords = glm::vec2(1.0f, 0.0f);
-
-vector<Vertex> vertices;
-vertices.push_back(vertex1);
-vertices.push_back(vertex2);
-vertices.push_back(vertex3);
-vertices.push_back(vertex4);
-
-vector<unsigned int> indices = {
-
-1, 2, 3,
-};
-*/

@@ -60,10 +60,6 @@ public:
 			addTriangleIndex(i4, i2, i3);
 		}
 		Texture t;
-		t.id = 1;
-		t.name = "weiti.png";
-		vector<Texture> tv;
-		tv.push_back(t);
 		Mesh mesh(vertices, indices, t);
 		return mesh;
 	}
