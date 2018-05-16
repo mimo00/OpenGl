@@ -122,6 +122,8 @@ int main()
 		// prepare textures
 		Texture texture0(GL_TEXTURE0, "iipw.png");
 		Texture texture1(GL_TEXTURE0, "weiti.png");
+		Texture metal_texture(GL_TEXTURE0, "metal.png");
+
 
 		// Set the texture wrapping parameters
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// Set texture wrapping to GL_REPEAT (usually basic wrapping method)
@@ -130,8 +132,11 @@ int main()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+		Cylinder cylinder(2, 4, 100);
+
 		Mesh mesh_t(vertices, indices, &texture0);
 		Mesh mesh_t_2(vertices2, indices2, &texture1);
+		Mesh cylinder_mesh = cylinder.getCylinderMesh(&metal_texture);
 
 		// main loop
 		while (!glfwWindowShouldClose(window))
@@ -151,6 +156,7 @@ int main()
 			// Bind Textures using texture units
 			mesh_t.Draw(theProgram);
 			mesh_t_2.Draw(theProgram);
+			cylinder_mesh.Draw(theProgram);
 			// input
 			// -----
 			processInput(window);
