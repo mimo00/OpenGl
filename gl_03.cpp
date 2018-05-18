@@ -32,7 +32,8 @@ bool firstMouse = true;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
-
+// lighting 
+glm::vec3 lightPos(8.0f, 2.0f, 0.0f);
 
 const GLuint WIDTH = 800, HEIGHT = 600;
 
@@ -121,6 +122,7 @@ int main()
 		glViewport(0, 0, WIDTH, HEIGHT);
 		// Build, compile and link shader program
 		Shader theProgram("gl_03.vert", "gl_03.frag");
+		Shader lampShader("gl_03_lamp.vert", "gl_03_lamp.frag");
 
 
 		// prepare textures
@@ -142,6 +144,9 @@ int main()
 		Mesh mesh_t_2(vertices2, indices2, &texture1);
 		Mesh cylinder_mesh = cylinder.getCylinderMesh(&metal_texture);
 
+		theProgram.use();
+		theProgram.setInt("material.diffuse", 0);
+		theProgram.setInt("material.specular", 1);
 		// main loop
 		while (!glfwWindowShouldClose(window))
 		{
@@ -166,10 +171,16 @@ int main()
 
 			//Seting shaders
 			theProgram.use();
-			theProgram.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-			theProgram.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
-			theProgram.setVec3("lightPos", lightPos);
+			theProgram.setVec3("light.position", lightPos);
 			theProgram.setVec3("viewPos", camera.Position);
+
+			// light properties
+			theProgram.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
+			theProgram.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
+			theProgram.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+
+			// material properties
+			theProgram.setFloat("material.shininess", 10.0f);
 
 			// pass projection matrix to shader (note that in this case it could change every frame)
 			glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -183,6 +194,19 @@ int main()
 			float angle = 20.0f;
 			model = glm::rotate(model, glm::radians(angle), cameraVector);
 			theProgram.setMat4("model", model);
+
+			cylinder_mesh.Draw(theProgram);
+
+			//Uzycie lamp shadera
+			lampShader.use();
+			lampShader.setMat4("projection", projection);
+			lampShader.setMat4("view", view);
+			model = glm::mat4();
+			model = glm::translate(model, lightPos);
+			model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
+			lampShader.setMat4("model", model);
+			mesh_t.Draw(lampShader);
+			mesh_t_2.Draw(lampShader);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);

@@ -1,3 +1,6 @@
 Debug
 !.gitignore
 gl_03.vcxproj*
+gl_03.vcxproj
+gl_03.vcxproj.filter
+

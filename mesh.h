@@ -88,7 +88,6 @@ public:
 	{
 		glActiveTexture(texture->unit);
 		glBindTexture(GL_TEXTURE_2D, texture->id);
-		glUniform1i(glGetUniformLocation(shader.ID, "ourTexture"), 0);
 
 		// draw mesh
 		glBindVertexArray(VAO);
