@@ -1,18 +1,16 @@
 #define GLEW_STATIC
+#include <cstdio>
+#include <glm/glm.hpp>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "mesh.h"
-#include <cstdio>
-#include <vector>
 #include <math.h>
-#define _USE_MATH_DEFINES
-#include <glm/glm.hpp>
+#include <SOIL.h>
+#include <vector>
 #include "camera.h"
-#include <GLFW/glfw3.h>
 #include "cylinder.h"
 #include "cuboid.h"
-#include <SOIL.h>
+#include "mesh.h"
 
 using namespace std;
 
