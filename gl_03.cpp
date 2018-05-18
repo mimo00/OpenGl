@@ -80,45 +80,6 @@ int main()
 		// configure global opengl state
 		// -----------------------------
 		glEnable(GL_DEPTH_TEST);
-		
-		Vertex vertex1;
-		vertex1.Position = glm::vec3(0.0f, 0.0f, 0.0f);
-		vertex1.Normal = glm::vec3(0.0f, 0.0f, 1.0f);
-		vertex1.TexCoords = glm::vec2(0.0f, 0.0f);
-
-		Vertex vertex2;
-		vertex2.Position = glm::vec3(4.0f, 0.0f, 0.0f);
-		vertex2.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
-		vertex2.TexCoords = glm::vec2(1.0f, 0.0f);
-
-		Vertex vertex3;
-		vertex3.Position = glm::vec3(2.0f, 4.0f, 0.0f);
-		vertex3.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
-		vertex3.TexCoords = glm::vec2(0.0f, 1.0f);
-
-		Vertex vertex4;
-		vertex4.Position = glm::vec3(-4.0f, 0.0f, 0.0f);
-		vertex4.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
-		vertex4.TexCoords = glm::vec2(1.0f, 0.0f);
-
-		vector<Vertex> vertices;
-		vertices.push_back(vertex1);
-		vertices.push_back(vertex2);
-		vertices.push_back(vertex3);
-		vector<unsigned int> indices = {
-			1, 2, 3,
-		};
-
-		vector<Vertex> vertices2;
-		vertices2.push_back(vertex1);
-		vertices2.push_back(vertex3);
-		vertices2.push_back(vertex4);
-		vector<unsigned int> indices2 = {
-			1, 2, 3,
-		};
-
-
-
 		glViewport(0, 0, WIDTH, HEIGHT);
 		// Build, compile and link shader program
 		Shader theProgram("gl_03.vert", "gl_03.frag");
@@ -139,10 +100,9 @@ int main()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		Cylinder cylinder(2, 4, 100);
-
-		Mesh mesh_t(vertices, indices, &texture0);
-		Mesh mesh_t_2(vertices2, indices2, &texture1);
 		Mesh cylinder_mesh = cylinder.getCylinderMesh(&metal_texture);
+		Cuboid cuboid_light(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(5.0f, 5.0f, 5.0f), 10);
+		Mesh cuboid_light_mesh = cuboid_light.getMesh();
 
 		theProgram.use();
 		theProgram.setInt("material.diffuse", 0);
@@ -205,9 +165,8 @@ int main()
 			model = glm::translate(model, lightPos);
 			model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
 			lampShader.setMat4("model", model);
-			mesh_t.Draw(lampShader);
-			mesh_t_2.Draw(lampShader);
 
+			cuboid_light_mesh.Draw(theProgram);
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
 			// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
