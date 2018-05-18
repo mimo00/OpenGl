@@ -37,12 +37,12 @@ public:
 			Vertex vertex;
 
 			vertex.Position = glm::vec3(x, hl, z);
-			vertex.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
+			vertex.Normal = glm::vec3(2 * x, hl, 2 * z);
 			vertex.TexCoords = glm::vec2(actualTextureWidth, 1.0f);
 
 			Vertex vertex2;
 			vertex2.Position = glm::vec3(x, -hl, z);
-			vertex2.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
+			vertex2.Normal = glm::vec3(2 * x, -hl, 2 * z);
 			vertex2.TexCoords = glm::vec2(actualTextureWidth, 0.0f);
 
 			vertices[i] = vertex;
