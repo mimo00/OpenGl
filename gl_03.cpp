@@ -75,6 +75,10 @@ int main()
 		glewExperimental = GL_TRUE;
 		if (glewInit() != GLEW_OK)
 			throw exception("GLEW Initialization failed");
+
+		// configure global opengl state
+		// -----------------------------
+		glEnable(GL_DEPTH_TEST);
 		
 		Vertex vertex1;
 		vertex1.Position = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -149,19 +153,24 @@ int main()
 			// input
 			processInput(window);
 
+			
+
 			// Clear the colorbuffer
 			glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			// Bind Textures using texture units
-			mesh_t.Draw(theProgram);
-			mesh_t_2.Draw(theProgram);
-			cylinder_mesh.Draw(theProgram);
 			// input
 			// -----
 			processInput(window);
 
+			//Seting shaders
 			theProgram.use();
+			theProgram.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+			theProgram.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+			theProgram.setVec3("lightPos", lightPos);
+			theProgram.setVec3("viewPos", camera.Position);
+
 			// pass projection matrix to shader (note that in this case it could change every frame)
 			glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 			theProgram.setMat4("projection", projection);
