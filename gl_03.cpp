@@ -15,15 +15,14 @@
 using namespace std;
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const GLuint WIDTH = 800, HEIGHT = 600;
 
 // camera
 glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, 10.0f);
 glm::vec3 cameraVector = glm::vec3(0.0f, 1.0f, 0.0f);	/*Kamera bedzie zwrocona na przeciwko tego wektora */
 Camera camera(cameraPosition);
-float lastX = SCR_WIDTH / 2.0f;
-float lastY = SCR_HEIGHT / 2.0f;
+float lastX = WIDTH / 2.0f;
+float lastY = HEIGHT / 2.0f;
 bool firstMouse = true;
 
 // timing
@@ -32,8 +31,6 @@ float lastFrame = 0.0f;
 
 // lighting 
 glm::vec3 lightPos(8.0f, 2.0f, 0.0f);
-
-const GLuint WIDTH = 800, HEIGHT = 600;
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -141,7 +138,7 @@ int main()
 			theProgram.setFloat("material.shininess", 10.0f);
 
 			// pass projection matrix to shader (note that in this case it could change every frame)
-			glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+			glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
 			theProgram.setMat4("projection", projection);
 
 			// camera/view transformation
