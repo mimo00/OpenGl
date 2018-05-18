@@ -14,6 +14,11 @@
 
 using namespace std;
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void processInput(GLFWwindow *window);
+
 // settings
 const GLuint WIDTH = 800, HEIGHT = 600;
 
@@ -31,13 +36,6 @@ float lastFrame = 0.0f;
 
 // lighting 
 glm::vec3 lightPos(8.0f, 2.0f, 0.0f);
-
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-void processInput(GLFWwindow *window);
-
 
 
 int main()
