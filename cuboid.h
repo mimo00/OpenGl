@@ -27,9 +27,9 @@ public:
 		glm::vec3 z_step_vec_neg(0, 0, -z_step);
 
 		geterate_wall(start_point, x_step_vec, z_step_vec);
-		geterate_wall(start_point, y_step_vec, z_step_vec);
+		geterate_wall(start_point, z_step_vec, y_step_vec);
 		geterate_wall(start_point, y_step_vec, x_step_vec);
-		geterate_wall(start_point_negative, x_step_vec_neg, z_step_vec_neg);
+		geterate_wall(start_point_negative, z_step_vec_neg, x_step_vec_neg);
 		geterate_wall(start_point_negative, y_step_vec_neg, z_step_vec_neg);
 		geterate_wall(start_point_negative, y_step_vec_neg, x_step_vec_neg);
 		Texture t(GL_TEXTURE0, "iipw.png");
@@ -51,7 +51,7 @@ private:
 			for (int j = 0; j <= numSteps; j++){
 				Vertex vertex;
 				vertex.Position = actual_vec;
-				vertex.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
+				vertex.Normal = glm::cross(vec1, vec2);
 				vertex.TexCoords = glm::vec2(1.0f, 0.0f);
 				vertices.push_back(vertex);
 				actual_vec = actual_vec + vec1;
