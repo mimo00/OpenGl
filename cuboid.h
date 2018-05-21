@@ -13,7 +13,7 @@ public:
 		c = 0;
 	}
 
-	Mesh getMesh(){
+	Mesh getMesh(Texture* t){
 		float x_step = dimensions.x / numSteps;
 		float y_step = dimensions.y / numSteps;
 		float z_step = dimensions.z / numSteps;
@@ -26,14 +26,13 @@ public:
 		glm::vec3 y_step_vec_neg(0, -y_step, 0);
 		glm::vec3 z_step_vec_neg(0, 0, -z_step);
 
-		geterate_wall(start_point, x_step_vec, z_step_vec);
-		geterate_wall(start_point, z_step_vec, y_step_vec);
-		geterate_wall(start_point, y_step_vec, x_step_vec);
-		geterate_wall(start_point_negative, z_step_vec_neg, x_step_vec_neg);
-		geterate_wall(start_point_negative, y_step_vec_neg, z_step_vec_neg);
-		geterate_wall(start_point_negative, y_step_vec_neg, x_step_vec_neg);
-		Texture t(GL_TEXTURE0, "iipw.png");
-		Mesh mesh(vertices, indices, &t);
+		geterate_wall(start_point, x_step_vec, z_step_vec, t);
+		geterate_wall(start_point, z_step_vec, y_step_vec, t);
+		geterate_wall(start_point, y_step_vec, x_step_vec, t);
+		geterate_wall(start_point_negative, z_step_vec_neg, x_step_vec_neg, t);
+		geterate_wall(start_point_negative, y_step_vec_neg, z_step_vec_neg, t);
+		geterate_wall(start_point_negative, y_step_vec_neg, x_step_vec_neg, t);
+		Mesh mesh(vertices, indices, t);
 		return mesh;
 	}
 
@@ -45,14 +44,14 @@ private:
 	vector<unsigned int> indices;
 	int c;
 	
-	void geterate_wall(glm::vec3 start_wall_point, glm::vec3 vec1, glm::vec3 vec2){
+	void geterate_wall(glm::vec3 start_wall_point, glm::vec3 vec1, glm::vec3 vec2, Texture* t){
 		glm::vec3 actual_vec(start_wall_point.x, start_wall_point.y, start_wall_point.z);
 		for (int i = 0; i <= numSteps; i++){
 			for (int j = 0; j <= numSteps; j++){
 				Vertex vertex;
 				vertex.Position = actual_vec;
 				vertex.Normal = glm::cross(vec1, vec2);
-				vertex.TexCoords = glm::vec2(1.0f, 0.0f);
+				vertex.TexCoords = glm::vec2((1.0f / numSteps)*j, (1.0f / numSteps)*i);
 				vertices.push_back(vertex);
 				actual_vec = actual_vec + vec1;
 			}
