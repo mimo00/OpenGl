@@ -3,6 +3,11 @@
 
 #define M_PI	3.14159265358979323846
 
+enum Cylinder_Movement {
+	UP,
+	DOWN
+};
+
 class Cylinder
 {
 public:
@@ -12,6 +17,10 @@ public:
 	unsigned int how_many_vertex;
 	vector<Vertex> vertices;
 	vector<unsigned int> indices;
+	float MovementSpeed;
+	float start_height;
+	float SPEED = 2.5f;
+
 
 	Cylinder(float radius, float length, unsigned int numSteps)
 	{
@@ -19,6 +28,8 @@ public:
 		this->length = length;
 		this->numSteps = numSteps;
 		this->how_many_vertex = numSteps * 2;
+		this->MovementSpeed = SPEED;
+		this->start_height = 0;
 	}
 
 	Mesh getCylinderMesh(Texture* t)
@@ -36,12 +47,12 @@ public:
 
 			Vertex vertex;
 
-			vertex.Position = glm::vec3(x, hl, z);
+			vertex.Position = glm::vec3(x, start_height + hl, z);
 			vertex.Normal = glm::vec3(2 * x, hl, 2 * z);
 			vertex.TexCoords = glm::vec2(actualTextureWidth, 1.0f);
 
 			Vertex vertex2;
-			vertex2.Position = glm::vec3(x, -hl, z);
+			vertex2.Position = glm::vec3(x, start_height - hl, z);
 			vertex2.Normal = glm::vec3(2 * x, -hl, 2 * z);
 			vertex2.TexCoords = glm::vec2(actualTextureWidth, 0.0f);
 
@@ -63,6 +74,17 @@ public:
 		}
 		Mesh mesh(vertices, indices, t);
 		return mesh;
+	}
+
+	void processMove(Cylinder_Movement direction, float deltaTime)
+	{
+		cout << "SIEMA " << this->start_height << endl;
+
+		float velocity = MovementSpeed * deltaTime;
+		if (direction == UP)
+			start_height += velocity;
+		if (direction == DOWN)
+			start_height -= velocity;
 	}
 
 private:
