@@ -11,6 +11,7 @@
 #include "cylinder.h"
 #include "cuboid.h"
 #include "mesh.h"
+#include "animation.h"
 
 using namespace std;
 
@@ -95,11 +96,14 @@ int main()
 		Cylinder cylinder(2, 4, 100);
 		Mesh cylinder_mesh = cylinder.getCylinderMesh(&metal_texture);
 		Cuboid cuboid_light(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(5.0f, 5.0f, 5.0f), 10);
-		Mesh cuboid_light_mesh = cuboid_light.getMesh();
+		Mesh cuboid_light_mesh = cuboid_light.getMesh(&metal_texture);
 
 		theProgram.use();
 		theProgram.setInt("material.diffuse", 0);
 		theProgram.setInt("material.specular", 1);
+
+		Animation animation;
+		
 		// main loop
 		while (!glfwWindowShouldClose(window))
 		{
@@ -111,6 +115,8 @@ int main()
 			// input
 			processInput(window);
 
+			//run animation
+			animation.update_translations_models(deltaTime);
 			
 
 			// Clear the colorbuffer
@@ -146,6 +152,8 @@ int main()
 			glm::mat4 model;
 			float angle = 20.0f;
 			model = glm::rotate(model, glm::radians(angle), cameraVector);
+
+			model = glm::translate(model, animation.cylinder_model_translation);
 			theProgram.setMat4("model", model);
 
 			cylinder_mesh.Draw(theProgram);
