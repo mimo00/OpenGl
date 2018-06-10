@@ -13,7 +13,7 @@ public:
 	float min_cylinder = 0.0f;
 	int state;
 	int number_of_moves_iterator = 1;
-	float move_lenght = BOARD_LENGHT / (NUMBER_OF_MOVES-1);
+	float move_lenght = BOARD_LENGHT / NUMBER_OF_MOVES;
 	
 	Animation() {
 		this->cylinder_model_translation = glm::vec3(0.0f, CYLINDER_HEIGHT / 2, 0.0f);

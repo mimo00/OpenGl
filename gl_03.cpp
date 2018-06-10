@@ -43,8 +43,8 @@ glm::vec3 lightPos(8.0f, 2.0f, 4.0f);
 glm::vec3 board_start_point = glm::vec3(-BOARD_WIDTH / 2, -(CYLINDER_HEIGHT / 2 + BOARD_HEIGHT), -BOARD_LENGHT + CYLINDER_RADIUS);
 glm::vec3 plane_start_point = glm::vec3(-PLANE_WIDTH / 2, -(CYLINDER_HEIGHT / 2 + BOARD_HEIGHT + PLANE_HEIGHT), -PLANE_LENGTH / 2);
 glm::vec3 column_left_start_point = glm::vec3(-BOARD_WIDTH * 2, -(CYLINDER_HEIGHT / 2 + BOARD_HEIGHT + PLANE_HEIGHT), -CYLINDER_RADIUS);
-glm::vec3 column_right_start_point = glm::vec3(BOARD_WIDTH * 2 - COLUMN_WIDTH, -(CYLINDER_HEIGHT / 2 + BOARD_HEIGHT + PLANE_HEIGHT), -CYLINDER_RADIUS / 2);
-glm::vec3 top_start_point = glm::vec3(-TOP_WIDTH / 2, -(CYLINDER_HEIGHT / 2 + BOARD_HEIGHT) + COLUMN_HEIGHT - PLANE_HEIGHT, -CYLINDER_RADIUS / 2);
+glm::vec3 column_right_start_point = glm::vec3(BOARD_WIDTH * 2 - COLUMN_WIDTH, -(CYLINDER_HEIGHT / 2 + BOARD_HEIGHT + PLANE_HEIGHT), -CYLINDER_RADIUS);
+glm::vec3 top_start_point = glm::vec3(-TOP_WIDTH / 2, -(CYLINDER_HEIGHT / 2 + BOARD_HEIGHT) + COLUMN_HEIGHT - PLANE_HEIGHT, -CYLINDER_RADIUS);
 
 
 int main()
