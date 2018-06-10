@@ -12,6 +12,7 @@
 #include "cuboid.h"
 #include "mesh.h"
 #include "animation.h"
+#include "constant.h"
 
 using namespace std;
 
@@ -36,7 +37,14 @@ float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
 // lighting 
-glm::vec3 lightPos(8.0f, 2.0f, 0.0f);
+glm::vec3 lightPos(8.0f, 2.0f, 4.0f);
+
+/*Starting point*/
+glm::vec3 board_start_point = glm::vec3(-BOARD_WIDTH / 2, -(CYLINDER_HEIGHT / 2 + BOARD_HEIGHT), -BOARD_LENGHT + CYLINDER_RADIUS);
+glm::vec3 plane_start_point = glm::vec3(-PLANE_WIDTH / 2, -(CYLINDER_HEIGHT / 2 + BOARD_HEIGHT + PLANE_HEIGHT), -PLANE_LENGTH / 2);
+glm::vec3 column_left_start_point = glm::vec3(-BOARD_WIDTH * 2, -(CYLINDER_HEIGHT / 2 + BOARD_HEIGHT + PLANE_HEIGHT), -CYLINDER_RADIUS);
+glm::vec3 column_right_start_point = glm::vec3(BOARD_WIDTH * 2 - COLUMN_WIDTH, -(CYLINDER_HEIGHT / 2 + BOARD_HEIGHT + PLANE_HEIGHT), -CYLINDER_RADIUS / 2);
+glm::vec3 top_start_point = glm::vec3(-TOP_WIDTH / 2, -(CYLINDER_HEIGHT / 2 + BOARD_HEIGHT) + COLUMN_HEIGHT - PLANE_HEIGHT, -CYLINDER_RADIUS / 2);
 
 
 int main()
@@ -81,9 +89,11 @@ int main()
 
 
 		// prepare textures
-		Texture texture0(GL_TEXTURE0, "iipw.png");
-		Texture texture1(GL_TEXTURE0, "weiti.png");
 		Texture metal_texture(GL_TEXTURE0, "metal.png");
+		Texture wood_texture(GL_TEXTURE0, "wood.png");
+		Texture brick_texture(GL_TEXTURE0, "brick.png");
+		Texture concrete_texture(GL_TEXTURE0, "concrete.png");
+		Texture brick2_texture(GL_TEXTURE0, "brick2.png");
 
 
 		// Set the texture wrapping parameters
@@ -93,8 +103,24 @@ int main()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		Cylinder cylinder(2, 4, 100);
+		Cylinder cylinder(CYLINDER_RADIUS, CYLINDER_HEIGHT, 100);
 		Mesh cylinder_mesh = cylinder.getCylinderMesh(&metal_texture);
+
+		Cuboid board(board_start_point, glm::vec3(BOARD_WIDTH, BOARD_HEIGHT, BOARD_LENGHT), 10);
+		Mesh board_mesh = board.getMesh(&wood_texture);
+		
+		Cuboid plane(plane_start_point, glm::vec3(PLANE_WIDTH, PLANE_HEIGHT, PLANE_LENGTH), 10);
+		Mesh plane_mesh = plane.getMesh(&brick2_texture);
+
+		Cuboid column_left(column_left_start_point, glm::vec3(COLUMN_WIDTH, COLUMN_HEIGHT, COLUMN_LENGTH), 10);
+		Mesh column_left_mesh = column_left.getMesh(&brick_texture);
+
+		Cuboid column_right(column_right_start_point, glm::vec3(COLUMN_WIDTH, COLUMN_HEIGHT, COLUMN_LENGTH), 10);
+		Mesh column_right_mesh = column_right.getMesh(&brick_texture);
+
+		Cuboid top(top_start_point, glm::vec3(TOP_WIDTH, TOP_HEIGHT, TOP_LENGTH), 10);
+		Mesh top_mesh = top.getMesh(&concrete_texture);
+
 		Cuboid cuboid_light(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(5.0f, 5.0f, 5.0f), 10);
 		Mesh cuboid_light_mesh = cuboid_light.getMesh(&metal_texture);
 
@@ -152,11 +178,35 @@ int main()
 			glm::mat4 model;
 			float angle = 20.0f;
 			model = glm::rotate(model, glm::radians(angle), cameraVector);
-
 			model = glm::translate(model, animation.cylinder_model_translation);
 			theProgram.setMat4("model", model);
-
 			cylinder_mesh.Draw(theProgram);
+
+			model = glm::mat4();
+			model = glm::rotate(model, glm::radians(angle), cameraVector);
+			model = glm::translate(model, animation.board_model_translation);
+			theProgram.setMat4("model", model);
+			board_mesh.Draw(theProgram);
+
+			model = glm::mat4();
+			model = glm::rotate(model, glm::radians(angle), cameraVector);
+			theProgram.setMat4("model", model);
+			plane_mesh.Draw(theProgram);
+
+			model = glm::mat4();
+			model = glm::rotate(model, glm::radians(angle), cameraVector);
+			theProgram.setMat4("model", model);
+			column_left_mesh.Draw(theProgram);
+
+			model = glm::mat4();
+			model = glm::rotate(model, glm::radians(angle), cameraVector);
+			theProgram.setMat4("model", model);
+			column_right_mesh.Draw(theProgram);
+
+			model = glm::mat4();
+			model = glm::rotate(model, glm::radians(angle), cameraVector);
+			theProgram.setMat4("model", model);
+			top_mesh.Draw(theProgram);
 
 			//Uzycie lamp shadera
 			lampShader.use();
