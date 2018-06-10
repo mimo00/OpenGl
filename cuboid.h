@@ -28,7 +28,7 @@ public:
 
 		geterate_wall(start_point, x_step_vec, z_step_vec, t);
 		geterate_wall(start_point, z_step_vec, y_step_vec, t);
-		geterate_wall(start_point, y_step_vec, x_step_vec, t);
+		geterate_wall(start_point, x_step_vec, y_step_vec, t);
 		geterate_wall(start_point_negative, z_step_vec_neg, x_step_vec_neg, t);
 		geterate_wall(start_point_negative, z_step_vec_neg, y_step_vec_neg, t);
 		geterate_wall(start_point_negative, x_step_vec_neg, y_step_vec_neg, t);
